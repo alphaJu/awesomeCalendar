@@ -60,6 +60,13 @@ class CalendarCell: FSCalendarCell {
         self.backgroundView = view;
         
         self.titleLabel.textAlignment = .left
+        self.subtitleLabel.textAlignment = .left
+        
+        self.titleLabel.layer.zPosition = 2
+        self.subtitleLabel.layer.zPosition = 1
+        self.imageView.layer.zPosition = 0
+        
+        
         /*let catimage = UIImageView(image: UIImage(named: "icon_cat")!)
          self.contentView.insertSubview(catimage, at: 1)
          */

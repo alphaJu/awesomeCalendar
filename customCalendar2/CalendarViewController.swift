@@ -48,7 +48,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         calendar.calendarWeekdayView.backgroundColor = UIColor.red.withAlphaComponent(0.1)
         calendar.appearance.eventSelectionColor = UIColor.blue
         calendar.appearance.titleOffset = CGPoint(x:15,y:-20)
-        calendar.appearance.subtitleOffset = CGPoint(x:-40, y:-10)
+        calendar.appearance.subtitleOffset = CGPoint(x:15, y:-10)
         
         
         /*calendar.headerHeight = calendar.headerHeight - 0.1
@@ -138,7 +138,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         if(day?.filepath != nil){
             img = loads(fileName: (day!.filepath))!
         }
-        let img2 = resizeImage(image: img, targetSize: CGSize(width: 108.5,height: 104.0))
+        let img2 = resizeImage(image: img, targetSize: CGSize(width: 158.5,height: 104.0))
         return img2
     }
     
