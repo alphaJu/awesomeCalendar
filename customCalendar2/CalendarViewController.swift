@@ -158,7 +158,9 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         
         
         let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "sbPopUpID") as! PopUpViewController
-        popOverVC.canvas = self.calendar(self.calendar, cellFor: date, at: monthPosition).image
+        
+        popOverVC.canvas = self.calendar.cell(for: date, at: monthPosition)?.imageView.image
+        //popOverVC.canvas = self.calendar(self.calendar, cellFor: date, at monthPosition).imageView.image
         
         //error
         popOverVC.onSave = { (img) in

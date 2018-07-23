@@ -31,8 +31,16 @@ class PopUpViewController: UIViewController {
         (1.0, 1.0, 1.0)
     ]
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let canvas1 = canvas {
+            print("have canvas")
+        }else{
+            print("no canvas")
+        }
+        mainImageView.image = canvas
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
     }
     
