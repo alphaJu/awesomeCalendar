@@ -33,6 +33,7 @@
 		1772242921058875000E6676 /* FSCalendarTransitionCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1772241921058875000E6676 /* FSCalendarTransitionCoordinator.m */; };
 		1772242A21058875000E6676 /* FSCalendarAppearance.m in Sources */ = {isa = PBXBuildFile; fileRef = 1772241A21058875000E6676 /* FSCalendarAppearance.m */; };
 		1772242C21058CDF000E6676 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1772242B21058CDF000E6676 /* SettingsViewController.swift */; };
+		1772242E2105E91E000E6676 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1772242D2105E91E000E6676 /* CollectionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +82,7 @@
 		1772241921058875000E6676 /* FSCalendarTransitionCoordinator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendarTransitionCoordinator.m; sourceTree = "<group>"; };
 		1772241A21058875000E6676 /* FSCalendarAppearance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendarAppearance.m; sourceTree = "<group>"; };
 		1772242B21058CDF000E6676 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		1772242D2105E91E000E6676 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 				035495702104C97F002A82DD /* AppDelegate.swift */,
 				035495722104C97F002A82DD /* ViewController.swift */,
 				035495742104C97F002A82DD /* Main.storyboard */,
+				1772242D2105E91E000E6676 /* CollectionViewController.swift */,
 				1772242B21058CDF000E6676 /* SettingsViewController.swift */,
 				035495772104C981002A82DD /* Assets.xcassets */,
 				035495792104C981002A82DD /* LaunchScreen.storyboard */,
@@ -252,6 +255,7 @@
 				1772241F21058875000E6676 /* FSCalendarStickyHeader.m in Sources */,
 				1772242321058875000E6676 /* FSCalendarWeekdayView.m in Sources */,
 				1772242921058875000E6676 /* FSCalendarTransitionCoordinator.m in Sources */,
+				1772242E2105E91E000E6676 /* CollectionViewController.swift in Sources */,
 				1772242621058875000E6676 /* FSCalendarConstants.m in Sources */,
 				1772241E21058875000E6676 /* FSCalendarCell.m in Sources */,
 				035495CB2104D373002A82DD /* CalendarViewController.swift in Sources */,
@@ -407,13 +411,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8MTGP22CYZ;
+				DEVELOPMENT_TEAM = V8NX6925X2;
 				INFOPLIST_FILE = customCalendar2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "-963";
+				PRODUCT_BUNDLE_IDENTIFIER = yeju.Drawing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "customCalendar2-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
@@ -426,13 +430,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8MTGP22CYZ;
+				DEVELOPMENT_TEAM = V8NX6925X2;
 				INFOPLIST_FILE = customCalendar2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "-963";
+				PRODUCT_BUNDLE_IDENTIFIER = yeju.Drawing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "customCalendar2-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
