@@ -226,6 +226,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         //error
         popOverVC.onSave = { (img) in
 //            self.calendar.cell(for: date, at: monthPosition)?.contentView.insertSubview(UIImageView(image: img) , at: 2)
+            self.calendarCurrentPageDidChange(self.calendar)
         }
         
         self.present(popOverVC, animated: true)
