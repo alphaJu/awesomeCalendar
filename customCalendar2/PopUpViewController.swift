@@ -14,6 +14,7 @@ class PopUpViewController: UIViewController {
     @IBOutlet weak var tempImageView: UIImageView!
     
     var onSave: ((UIImage)->())?
+    var canvas: UIImage?
     
     var lastPoint = CGPoint.zero // CGPoint.zeroPoint
     var red: CGFloat = 0.0
@@ -32,6 +33,7 @@ class PopUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
     }
     
     override func didReceiveMemoryWarning() {
@@ -135,6 +137,11 @@ class PopUpViewController: UIViewController {
     
     @IBAction func closePopUp(_ sender: Any) {
         print("clicked")
+        
+        if let img = mainImageView.image {
+            onSave?(img)
+        }
+        
         dismiss(animated: true)
     
     }
