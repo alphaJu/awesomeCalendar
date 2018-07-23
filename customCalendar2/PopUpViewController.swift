@@ -7,11 +7,16 @@
 //
 
 import UIKit
+import RealmSwift
 
 class PopUpViewController: UIViewController {
     //MARK: Properties
     @IBOutlet weak var mainImageView: UIImageView!
     @IBOutlet weak var tempImageView: UIImageView!
+    
+    var documentsUrl: URL {
+        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    }
     
     var onSave: ((UIImage)->())?
     var canvas: UIImage?
@@ -23,6 +28,8 @@ class PopUpViewController: UIViewController {
     var brushWidth: CGFloat = 10.0
     var opacity: CGFloat = 1.0
     var swiped = false
+    var date:String?
+    
     
     let colors: [(CGFloat, CGFloat, CGFloat)] = [
         (1.0, 0, 0),
@@ -31,16 +38,24 @@ class PopUpViewController: UIViewController {
         (1.0, 1.0, 1.0)
     ]
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let canvas1 = canvas {
-            print("have canvas")
-        }else{
-            print("no canvas")
+        //데이터베이스 미는용도
+        //        let realm = try! Realm()
+        //        try! realm.write {
+        //            realm.deleteAll()
+        //        }
+        
+        let realm = try! Realm()
+        let predicate = NSPredicate(format: "date = %@",date!)
+        let day = realm.objects(cellinfo.self).filter(predicate).first
+        if(day?.filepath != nil){
+            mainImageView.image = load(fileName: (day!.filepath))
         }
-        mainImageView.image = canvas
+        
+//        mainImageView.image = canvas
+        
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
     }
     
@@ -147,12 +162,64 @@ class PopUpViewController: UIViewController {
         print("clicked")
         
         if let img = mainImageView.image {
+            //            let img2 = resizeImage(image: img, targetSize: CGSize(width: 158.5,height: 104.0))
+            let realm = try! Realm()
+            let predicate = NSPredicate(format: "date = %@",date!)
+            var test = realm.objects(cellinfo.self).filter(predicate).first
+            if(test == nil){
+                test = cellinfo()
+            }
+            //            test.filepath = save(image: img)!
+            if(test?.filepath != ""){
+                try! realm.write{
+                    test?.filepath = save(image: img)!
+                    print("testpoint1")
+                }
+            }
+            if(test?.filepath == ""){
+                test?.date = date!
+                test?.filepath = save(image: img)!
+                try! realm.write{
+                    realm.add(test!)
+                    print("testpoint2")
+                }
+            }
+            
             onSave?(img)
         }
         
         dismiss(animated: true)
     
     }
+    
+    private func save(image: UIImage) -> String? {
+        let fileName = date!
+        let fileURL = documentsUrl.appendingPathComponent(fileName)
+        if let imageData = UIImageJPEGRepresentation(image, 1.0) {
+            try? imageData.write(to: fileURL, options: .atomic)
+            return fileName // ----> Save fileName
+        }
+        
+        print("Error saving image")
+        return nil
+    }
+    
+    private func load(fileName: String) -> UIImage? {
+        let fileURL = documentsUrl.appendingPathComponent(fileName)
+        do {
+            let imageData = try Data(contentsOf: fileURL)
+            return UIImage(data: imageData)
+        } catch {
+            print("Error loading image : \(error)")
+        }
+        return nil
+    }
+    
+    func convertToBase64(image: UIImage) -> String {
+        return UIImagePNGRepresentation(image)!
+            .base64EncodedString()
+    }
+    
 }
 
 extension PopUpViewController: SettingsViewControllerDelegate {
@@ -164,4 +231,5 @@ extension PopUpViewController: SettingsViewControllerDelegate {
         self.green = settingsViewController.green
         self.blue = settingsViewController.blue
     }
+    
 }

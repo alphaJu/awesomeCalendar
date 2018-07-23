@@ -7,14 +7,22 @@
 //
 
 import Foundation
+import RealmSwift
 
 class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance {
-    
+    var documentsUrl: URL {
+        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    }
     fileprivate let gregorian = Calendar(identifier: .gregorian)
     fileprivate let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
+    }()
+    fileprivate let formatter2: DateFormatter = {
+        let formatter2 = DateFormatter()
+        formatter2.dateFormat = "yyyyMMdd"
+        return formatter2
     }()
     
     fileprivate weak var calendar: FSCalendar!
@@ -41,6 +49,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         calendar.appearance.eventSelectionColor = UIColor.blue
         calendar.appearance.titleOffset = CGPoint(x:15,y:-20)
         calendar.appearance.subtitleOffset = CGPoint(x:-40, y:-10)
+        
         
         /*calendar.headerHeight = calendar.headerHeight - 0.1
          
@@ -119,9 +128,56 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     //날짜에 맞는 이미지 넣는 것 같음
     func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
         //if date ==
-        return UIImage(named: "icon1")
+        let realm = try! Realm()
+        let test: String?
+        test = self.formatter2.string(from: date)
+        var img: UIImage
+        img = UIImage(named: "icon1")!
+        let predicate = NSPredicate(format: "date = %@",test!)
+        let day = realm.objects(cellinfo.self).filter(predicate).first
+        if(day?.filepath != nil){
+            img = loads(fileName: (day!.filepath))!
+        }
+        let img2 = resizeImage(image: img, targetSize: CGSize(width: 108.5,height: 104.0))
+        return img2
     }
     
+    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+        let size = image.size
+        
+        let widthRatio  = targetSize.width  / size.width
+        let heightRatio = targetSize.height / size.height
+        
+        // Figure out what our orientation is, and use that to form the rectangle
+        var newSize: CGSize
+        if(widthRatio > heightRatio) {
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        } else {
+            newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
+        }
+        
+        // This is the rect that we've calculated out and this is what is actually used below
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+        
+        // Actually do the resizing to the rect using the ImageContext stuff
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
+    }
+    
+    private func loads(fileName: String) -> UIImage? {
+        let fileURL = documentsUrl.appendingPathComponent(fileName)
+        do {
+            let imageData = try Data(contentsOf: fileURL)
+            return UIImage(data: imageData)
+        } catch {
+            print("Error loading image : \(error)")
+        }
+        return nil
+    }
     /*func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
      
      }*/
@@ -154,17 +210,22 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         print("did select date \(self.formatter.string(from: date))")
+        print(self.formatter2.string(from: date))
+        let thisday = cellinfo()
+        thisday.date = self.formatter2.string(from: date)
         //self.configureVisibleCells()
         
         
         let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "sbPopUpID") as! PopUpViewController
+        popOverVC.date = formatter2.string(from: date)
         
-        popOverVC.canvas = self.calendar.cell(for: date, at: monthPosition)?.imageView.image
+        
+//        popOverVC.canvas = self.calendar.cell(for: date, at: monthPosition)?.imageView.image
         //popOverVC.canvas = self.calendar(self.calendar, cellFor: date, at monthPosition).imageView.image
         
         //error
         popOverVC.onSave = { (img) in
-            self.calendar.cell(for: date, at: monthPosition)?.contentView.insertSubview(UIImageView(image: img) , at: 2)
+//            self.calendar.cell(for: date, at: monthPosition)?.contentView.insertSubview(UIImageView(image: img) , at: 2)
         }
         
         self.present(popOverVC, animated: true)
